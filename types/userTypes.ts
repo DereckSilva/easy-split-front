@@ -16,17 +16,12 @@ export interface User {
   id: number, email: string, name: string, birthdate: Date
 }
 
-export enum UserRole {
-  ADMIN = "ADMIN",
-  USER = "USER"
-}
 
 export interface UserCreateRequest {
   name: string
   email: string
   password: string
   confirmPassword: string
-  role: UserRole
   phoneNumber: string
 }
 

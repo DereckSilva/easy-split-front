@@ -1,20 +1,26 @@
-import LogoComponent from "@/components/LogoComponent";
-import { Link } from "expo-router";
-import { ScrollView, Text, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
+import PagerView from 'react-native-pager-view';
+import ItemFirstComponent from "@/components/ItemFirstComponent";
+import ItemSecondComponent from "@/components/ItemSecondComponent";
+import ItemIndexComponent from "@/components/ItemIndexComponent";
+import {userAuthenticated} from "@/hooks/auth/authUser";
+import Home from "@/app/(tabs)/home";
 
 export default function IndexScreen() {
-  return (
-     <SafeAreaProvider >
-      <SafeAreaView className='flex-1 items-center justify-center bg-white' edges={['top']}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
-          <View>
-            <LogoComponent />
-            <Text className="text-pink-500 text-4xl font-bold">Index</Text>
-            <Link href={'/(tabs)/login'}>Login</Link>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </SafeAreaProvider>
-  )
+    const userAuth = userAuthenticated();
+    return ( userAuth
+            ? <Home />
+            : <PagerView style={{flex: 1}}>
+                <View key="1">
+                    <ItemIndexComponent />
+                </View>
+                <View className="justify-center items-center" key="2">
+                    <ItemFirstComponent />
+                </View>
+                <View className="justify-center items-center" key="3">
+                    <ItemSecondComponent />
+                </View>
+            </PagerView>
+
+    )
 }

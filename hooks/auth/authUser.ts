@@ -15,5 +15,8 @@ export async function authUserHook (user: UserAuthRequest) {
     login({token, status, statusCode, message}, userResponse.user)
     setToken(userResponse.token)
   }
+}
 
+export function userAuthenticated (): boolean {
+  return userAuthStore((state) => state.isAuthenticated)
 }

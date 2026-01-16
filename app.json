@@ -30,7 +30,8 @@
       "favicon": "./assets/images/logo-easy.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true

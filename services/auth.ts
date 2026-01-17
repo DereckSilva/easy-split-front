@@ -1,4 +1,4 @@
-import { UserAuthRequest, UserAuthResponse } from "@/types/userTypes";
+import {UserAuthRequest, UserAuthResponse} from "@/types/userTypes";
 import api from "./api";
 
 export default async function authUserService(user: UserAuthRequest): Promise<UserAuthResponse> {
@@ -7,9 +7,22 @@ export default async function authUserService(user: UserAuthRequest): Promise<Us
       'Content-Type': 'application/json'
     }
   }).then((response) => {
-    return response.data
+    return {
+      token: response.data.token,
+      data: {
+        status: true,
+        message: response.data.message,
+        statusCode: response.status
+      }
+    }
   }).catch((error) => {
-    console.log(error)
-    return error
+    return { data:
+      {
+        status: false,
+        statusCode: error.response.status,
+        message: error.response.data.message
+      },
+      token: ''
+    }
   })
 }

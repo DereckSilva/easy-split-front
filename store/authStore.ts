@@ -6,10 +6,12 @@ interface AuthStore {
   user: User | null
   token: string | null
   isAuthenticated: boolean
+  message: string | null
 
-  login: (auth: LoginResponse, user: User) => void
+  login: (auth: LoginResponse) => void
   logout: () => void
   setToken: (token: string) => void
+  setMessage: (message: string) => void
 }
 
 const userAuthStore = create<AuthStore>((set) => ({
@@ -17,10 +19,10 @@ const userAuthStore = create<AuthStore>((set) => ({
   user: null,
   token: null,
   isAuthenticated: false,
+  message: null,
 
-  login: (auth, user) => set({
+  login: (auth) => set({
     auth,
-    user,
     isAuthenticated: true
   }),
 
@@ -32,6 +34,10 @@ const userAuthStore = create<AuthStore>((set) => ({
 
   setToken: (token) => set({
     token
+  }),
+
+  setMessage: (message) => set({
+    message,
   })
 }))
 

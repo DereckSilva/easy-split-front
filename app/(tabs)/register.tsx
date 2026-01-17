@@ -1,6 +1,6 @@
 import BackComponent from '@/components/BackComponent';
 import ButtonComponent from '@/components/ButtonComponent';
-import { registerUserHook } from '@/hooks/user/userHook';
+import {fieldsErrorRegister, registerUserHook} from '@/hooks/user/userHook';
 import { userCreateSchema } from '@/types/schemaForm';
 import { style } from '@/types/style';
 import { UserCreateRequest } from '@/types/userTypes';
@@ -10,7 +10,7 @@ import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-q
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import CountryPicker, {
   Country,
   CountryCode
@@ -19,7 +19,7 @@ import MaskInput, { Masks } from "react-native-mask-input";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from '@expo/vector-icons/Feather';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import LoadingComponent from "@/components/LoadingComponent";
 
 const client = new QueryClient();
 
@@ -37,16 +37,20 @@ function RegisterScreen() {
   const [countryCode, setCountryCode] = useState<CountryCode>("BR");
   const [callingCode, setCallingCode] = useState("55");
   const [showPicker, setShowPicker] = useState(false);
+  const [messageError, setMessageError] = useState<string|null>('')
+    const errorRegisterMessage = fieldsErrorRegister()
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: UserCreateRequest) => registerUserHook(data),
     onSuccess: (data) => {
-      console.log(data)
+      if (!data) {
+          setMessageError(errorRegisterMessage)
+      }
     }
   })
 
   if (isPending) {
-    // componente de loading
+      return <LoadingComponent text="Realizando a criação do usuáro, aguarde um instante" />
   }
 
   const onSelect = (country: Country) => {
@@ -58,13 +62,16 @@ function RegisterScreen() {
     mutate(data)
   }
 
-  const firstError = errors.name?.message || errors.email?.message || errors.password?.message || errors.confirmPassword?.message || errors.birthdate?.message || errors.phoneNumber?.message 
+  const firstError = errors.name?.message || errors.email?.message || errors.password?.message || errors.password_confirmation?.message || errors.birthdate?.message || errors.phone_number?.message 
 
   return (
     <SafeAreaProvider>
       <SafeAreaView className='flex-1 items-center justify-center w-auto bg-white h-80 p-4'>
-
-        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+          <KeyboardAvoidingView
+              behavior="position"
+              enabled
+          >
+        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 16 }}>
 
             <View className='flex gap-4 items-center justify-center w-96 bg-white'>
 
@@ -108,15 +115,21 @@ function RegisterScreen() {
                 name='name'
                 render={({field: { onChange, value }}) => (
                   <TextInput
-                    className={focusInput == 'name' ? style.input.replace('border-white', 'border-emerald-500') : style.input}
+                    className={focusInput == 'name' ? style.input.replace('border-gray-600', 'border-emerald-500') : style.input}
                     placeholder='Digite o seu nome completo'
                     onChangeText={onChange}
                     value={value}
                     underlineColorAndroid="transparent"
                     testID='name'
                     keyboardType='default'
-                    onFocus={() => setFocusInput('name')}
-                    onBlur={() => setFocusInput('')}
+                    onFocus={() => {
+                        setFocusInput('name')
+                        setMessageError(null)
+                    }}
+                    onBlur={() => {
+                        setFocusInput('')
+                        setMessageError(null)
+                    }}
                   />
                 )}
               />
@@ -129,15 +142,21 @@ function RegisterScreen() {
                 name='email'
                 render={({field: { onChange, value }}) => (
                   <TextInput 
-                    className={focusInput == 'email' ? style.input.replace('border-white', 'border-emerald-500') : style.input}
+                    className={focusInput == 'email' ? style.input.replace('border-gray-600', 'border-emerald-500') : style.input}
                     placeholder='Digite o seu e-mail'
                     onChangeText={onChange}
                     value={value}
                     underlineColorAndroid="transparent"
                     testID='email'
                     keyboardType='email-address'
-                    onFocus={() => setFocusInput('email')}
-                    onBlur={() => setFocusInput('')}
+                    onFocus={() => {
+                        setFocusInput('email')
+                        setMessageError(null)
+                    }}
+                    onBlur={() => {
+                        setFocusInput('')
+                        setMessageError(null)
+                    }}
                   />
                 )}
               />
@@ -150,7 +169,7 @@ function RegisterScreen() {
                 name='password'
                 render={({field: { onChange, value }}) => (
                   <TextInput 
-                    className={focusInput == 'password' ? style.input.replace('border-white', 'border-emerald-500') : style.input}
+                    className={focusInput == 'password' ? style.input.replace('border-gray-600', 'border-emerald-500') : style.input}
                     placeholder='Digite a sua senha'
                     onChangeText={onChange}
                     value={value}
@@ -158,8 +177,14 @@ function RegisterScreen() {
                     secureTextEntry
                     testID='password'
                     keyboardType='default'
-                    onFocus={() => setFocusInput('password')}
-                    onBlur={() => setFocusInput('')}
+                    onFocus={() => {
+                        setFocusInput('password')
+                        setMessageError(null)
+                    }}
+                    onBlur={() => {
+                        setFocusInput('')
+                        setMessageError(null)
+                    }}
                   />
                 )}
               />
@@ -169,19 +194,25 @@ function RegisterScreen() {
                 </View>
               <Controller 
                 control={control}
-                name='confirmPassword'
+                name='password_confirmation'
                 render={({field: { onChange, value }}) => (
                   <TextInput 
-                    className={focusInput == 'confirmPassword' ? style.input.replace('border-white', 'border-emerald-500') : style.input}
+                    className={focusInput == 'password_confirmation' ? style.input.replace('border-gray-600', 'border-emerald-500') : style.input}
                     placeholder='Confirme sua senha'
                     onChangeText={onChange}
                     value={value}
                     underlineColorAndroid="transparent"
-                    testID='confirmPassword'
+                    testID='password_confirmation'
                     secureTextEntry
                     keyboardType='default'
-                    onFocus={() => setFocusInput('confirmPassword')}
-                    onBlur={() => setFocusInput('')}
+                    onFocus={() => {
+                        setFocusInput('password_confirmation')
+                        setMessageError(null)
+                    }}
+                    onBlur={() => {
+                        setFocusInput('')
+                        setMessageError(null)
+                    }}
                   />
                 )}
               />
@@ -195,7 +226,7 @@ function RegisterScreen() {
                 render={({ field: { onChange, value } }) => (
                   <>
                     <TouchableOpacity className="w-full" onPress={() => setShowPicker(true)}>
-                      <Text className={focusInput == 'birthdate' ? style.input.replace('border-white', 'border-emerald-500 text-center') : style.input + ' text-center'}>
+                      <Text className={focusInput == 'birthdate' ? style.input.replace('border-gray-600', 'border-emerald-500 text-center') : style.input + ' text-center text-gray-500'}>
                         {value
                           ? value.toLocaleDateString()
                           : 'Selecione a data'}
@@ -209,7 +240,7 @@ function RegisterScreen() {
                         display="default"
                         onChange={(event, selectedDate) => {
                           setShowPicker(false)
-
+                            setMessageError(null)
                           if (selectedDate) {
                             onChange(selectedDate)
                           }
@@ -225,10 +256,10 @@ function RegisterScreen() {
                 </View>
               <Controller
                   control={control}
-                  name="phoneNumber"
+                  name="phone_number"
                   defaultValue=""
                   render={({ field: { onChange, value } }) => (
-                    <View className={focusInput == 'phoneNumber' ? style.input.replace('border-white', 'border-emerald-500 flex-row items-center border rounded-lg px-2.5 mb-3') : style.input + ' flex-row items-center border rounded-lg px-2.5 mb-3'}>
+                    <View className={focusInput == 'phone_number' ? style.input.replace('border-gray-600', 'border-emerald-500 flex-row items-center border rounded-lg px-2.5 mb-3') : style.input + ' flex-row items-center border rounded-lg px-2.5 mb-3'}>
                       <View className='flex-row items-center mr-2'>
                         <CountryPicker
                           countryCode={countryCode}
@@ -249,8 +280,14 @@ function RegisterScreen() {
                         keyboardType="numeric"
                         placeholder="(DDD) XXXXX-XXXX"
                         className='flex text-base py-4'
-                        onFocus={() => setFocusInput('phoneNumber')}
-                        onBlur={() => setFocusInput('')}
+                        onFocus={() => {
+                            setFocusInput('phone_number')
+                            setMessageError(null)
+                        }}
+                        onBlur={() => {
+                            setFocusInput('')
+                            setMessageError(null)
+                        }}
                       />
                     </View>
                   )}
@@ -262,6 +299,10 @@ function RegisterScreen() {
               { firstError && (
                 <Text className='text-red-600 text-xl text-center'>{firstError}</Text>
               ) }
+
+                { messageError && (
+                    <Text className='text-red-600 text-xl text-center'>{messageError}</Text>
+                ) }
               <ButtonComponent click={handleSubmit(handleRegister)} text='Cadastrar' />
 
               <View className='flex flex-row gap-2'>
@@ -272,6 +313,7 @@ function RegisterScreen() {
               </View>
             </View>
         </ScrollView>
+          </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
   );

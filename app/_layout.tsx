@@ -1,8 +1,8 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import {Stack} from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-reanimated';
 import '../global.css';
 
@@ -46,8 +46,11 @@ export default function RootLayout() {
 function RootLayoutNav() {
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+  <Stack screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="index" />
+    <Stack.Screen name="login" />
+    <Stack.Screen name="register"/>
+    <Stack.Screen name="recoverPassword"/>
+  </Stack>
   );
 }

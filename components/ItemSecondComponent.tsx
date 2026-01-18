@@ -25,13 +25,13 @@ export default function ItemSecondComponent() {
             
             <View>
                 <View className="flex-row gap-2 justify-center items-center bg-emerald-500 p-4 rounded-2xl">
-                    <Text className="text-xl font-bold text-white text-center" onPress={() => { router.push("/(tabs)/register") }}>Começar Grátis</Text>
+                    <Text className="text-xl font-bold text-white text-center" onPress={() => { router.push("/register") }}>Começar Grátis</Text>
                     <AntDesign name="arrow-right" size={24} color="white" />
                 </View>
             </View>
             <View>
                 <View className="border-2 border-emerald-500 p-4 rounded-2xl">
-                    <Text className="text-xl font-bold text-emerald-500 text-center" onPress={() => { router.push("/(tabs)/login") }}>Já tenho conta</Text>
+                    <Text className="text-xl font-bold text-emerald-500 text-center" onPress={() => { router.push("/login") }}>Já tenho conta</Text>
                 </View>
             </View>
         </View>

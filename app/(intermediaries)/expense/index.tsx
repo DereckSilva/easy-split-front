@@ -1,33 +1,31 @@
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {KeyboardAvoidingView, ScrollView, Text, View} from "react-native";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
-import BackComponent from "@/components/BackComponent";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 const client = new QueryClient();
 
-function RecoverPassword() {
+
+function Expense() {
     return (
         <QueryClientProvider client={client}>
-            <RecoverPasswordScreen />
+            <ExpenseTab />
         </QueryClientProvider>
     )
 }
-function RecoverPasswordScreen() {
+
+
+function ExpenseTab() {
+
     return (
-        <SafeAreaProvider>
-            <SafeAreaView className='flex-1 items-center justify-center w-auto bg-white h-80 p-4'>
+        <SafeAreaProvider >
+            <SafeAreaView className='flex-1 items-center justify-center w-auto bg-white' edges={['top']}>
                 <KeyboardAvoidingView
                     behavior="position"
                     enabled
                 >
                     <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 16 }}>
-
                         <View className='flex gap-4 items-center justify-center w-96 bg-white'>
-
-                            <BackComponent link={"/login"}/>
-
-
-                            <Text>Recuperar senha</Text>
+                            <Text>Despesas Intermediario</Text>
                         </View>
                     </ScrollView>
                 </KeyboardAvoidingView>
@@ -36,4 +34,4 @@ function RecoverPasswordScreen() {
     )
 }
 
-export default RecoverPassword
+export default Expense

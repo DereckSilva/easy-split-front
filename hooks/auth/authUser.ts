@@ -1,5 +1,5 @@
-import authUserService from "@/services/auth";
-import userAuthStore from "@/store/authStore";
+import authUserService from "@/services/authUser";
+import userAuthStore from "@/store/authUserStore";
 import {UserAuthRequest, UserAuthResponse} from "@/types/userTypes";
 import { HttpStatusCode } from "axios";
 

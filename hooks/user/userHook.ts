@@ -2,7 +2,7 @@ import {registerUserService} from "@/services/user";
 import userStore from "@/store/userStore";
 import {UserCreateRequest} from "@/types/userTypes";
 import {HttpStatusCode} from "axios";
-import userAuthStore from "@/store/authStore";
+import userAuthStore from "@/store/authUserStore";
 
 export async function registerUserHook(data: UserCreateRequest) {
 

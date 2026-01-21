@@ -79,7 +79,7 @@ function RegisterScreen() {
 
 
                     <View className="justify-center items-center gap-2">
-                        <View className="w-20 rounded-2xl bg-emerald-500 p-4">
+                        <View className="w-18 rounded-2xl bg-emerald-500 p-4">
                             <MaterialCommunityIcons name="wallet-bifold-outline" size={32} color="white" />
                         </View>
                         <Text className="text-3xl">Crie sua conta</Text>

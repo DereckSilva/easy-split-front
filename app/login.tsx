@@ -44,7 +44,8 @@ function IndexScreen() {
         return false
       }
 
-      router.push('/home')
+      // @ts-ignore
+      router.push('/(user)/home')
     }
   })
 
@@ -53,7 +54,8 @@ function IndexScreen() {
   }
 
   const handleLogin = (data: UserAuthRequest): void => {
-    router.push('/home')
+    // @ts-ignore
+    router.push('/(user)/home')
     //setMessageError(null)
     //mutate(data)
   }
@@ -70,7 +72,7 @@ function IndexScreen() {
               <BackComponent link={'/'}/>
 
               <View className="justify-center items-center gap-2">
-                <View className="w-20 rounded-2xl bg-emerald-500 p-4">
+                <View className="w-18 rounded-2xl bg-emerald-500 p-4">
                   <MaterialCommunityIcons name="wallet-bifold-outline" size={32} color="white" />
                 </View>
                 <Text className="text-3xl">Bem-vindo de volta</Text>

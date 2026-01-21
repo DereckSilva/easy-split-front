@@ -1,15 +1,16 @@
 import { HttpStatusCode } from "axios"
 
-export interface UserAuthRequest {
-  email: string,
-  password: string
-}
-
+/* User */
 export interface LoginResponse{
   token: string
   status: boolean
   message: string
   statusCode: HttpStatusCode
+}
+
+export interface UserAuthRequest {
+  email: string,
+  password: string
 }
 
 export interface User {
@@ -49,4 +50,31 @@ interface DataResponse {
   status: boolean
   message: string
   statusCode: HttpStatusCode
+}
+
+/* Intermediário */
+
+export interface IntermediaryLoginResponse {
+  id: number,
+  email: string,
+  phone_number: string,
+  expense: Expense
+}
+
+export interface IntermediaryLoginRequest {
+  email: string,
+  phone_number: string,
+}
+
+/* Expense */
+
+export interface Expense {
+  name: string,
+  price_total: number,
+  parcels: number,
+  payer_id: number,
+  payment_date: Date,
+  intermediary: boolean,
+  intermediaries: IntermediaryLoginResponse[],
+  receive_notification: boolean,
 }

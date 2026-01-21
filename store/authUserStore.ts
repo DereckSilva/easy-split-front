@@ -1,7 +1,7 @@
 import { LoginResponse, User } from '@/types/userTypes'
 import { create } from 'zustand'
 
-interface AuthStore {
+interface AuthUserStore {
   auth: LoginResponse | null
   user: User | null
   token: string | null
@@ -14,7 +14,7 @@ interface AuthStore {
   setMessage: (message: string) => void
 }
 
-const userAuthStore = create<AuthStore>((set) => ({
+const userAuthStore = create<AuthUserStore>((set) => ({
   auth: null,
   user: null,
   token: null,

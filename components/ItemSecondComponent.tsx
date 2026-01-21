@@ -1,5 +1,4 @@
 import {Text, View} from "react-native";
-import DragSideComponent from "@/components/DragSideComponent";
 import HeaderIndexComponent from "@/components/HeaderIndexComponent";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from "react";
@@ -31,7 +30,12 @@ export default function ItemSecondComponent() {
             </View>
             <View>
                 <View className="border-2 border-emerald-500 p-4 rounded-2xl">
-                    <Text className="text-xl font-bold text-emerald-500 text-center" onPress={() => { router.push("/login") }}>Já tenho conta</Text>
+                    <Text className="text-xl font-bold text-emerald-500 text-center" onPress={() => { router.push("/login") }}>Sou Cliente</Text>
+                </View>
+            </View>
+            <View>
+                <View className="border-2 border-emerald-500 p-4 rounded-2xl">
+                    <Text className="text-xl font-bold text-emerald-500 text-center" onPress={() => { router.push("/intermediary") }}>Área do intermediário</Text>
                 </View>
             </View>
         </View>

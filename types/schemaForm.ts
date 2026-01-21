@@ -22,3 +22,8 @@ export const userCreateSchema = yup.object({
   birthdate: yup.date().typeError("Data Inválida").required('Data de nascimento é obrigatória'),
   phone_number: yup.string().matches(/^(\(?\d{2}\)?\s?)?(9\d{4})-?\d{4}$/, 'Número de telefone inválido').required('Número de telefone é obrigatório'),
 });
+
+export const intermediarySchema = yup.object({
+  email: authSchema.email,
+  phone_number: yup.string().matches(/^(\(?\d{2}\)?\s?)?(9\d{4})-?\d{4}$/, 'Número de telefone inválido').required('Número de telefone é obrigatório')
+})

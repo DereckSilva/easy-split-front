@@ -4,7 +4,7 @@ import ItemFirstComponent from "@/components/ItemFirstComponent";
 import ItemSecondComponent from "@/components/ItemSecondComponent";
 import ItemIndexComponent from "@/components/ItemIndexComponent";
 import {userAuthenticated} from "@/hooks/auth/authUser";
-import Home from "@/app/(tabs)/home";
+import Home from "@/app/(user)/home";
 
 export default function IndexScreen() {
     const userAuth = userAuthenticated();

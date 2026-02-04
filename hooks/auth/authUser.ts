@@ -28,6 +28,11 @@ export function userAuthenticated (): boolean {
   return isAuthenticated
 }
 
+export function userToken (): string {
+  const { token } = userAuthStore.getState()
+  return token
+}
+
 export function userErrorAuth (): string | null {
   return userAuthStore((state) => state.message)
 }

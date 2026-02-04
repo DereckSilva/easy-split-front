@@ -2,7 +2,6 @@ import {registerUserService} from "@/services/user";
 import userStore from "@/store/userStore";
 import {UserCreateRequest} from "@/types/userTypes";
 import {HttpStatusCode} from "axios";
-import userAuthStore from "@/store/authUserStore";
 
 export async function registerUserHook(data: UserCreateRequest) {
 
@@ -10,23 +9,22 @@ export async function registerUserHook(data: UserCreateRequest) {
   const { setUser, setMessage } = userStore.getState();
 
   if (createUser.data.statusCode == HttpStatusCode.UnprocessableEntity) {
-    console.log(createUser.fields.birthdate)
-    const message = createUser.fields?.birthdate || createUser.fields?.password || createUser.fields?.email || createUser.fields?.name || createUser.fields?.phone_number
+    const message = createUser?.birthdate || createUser?.password || createUser?.email || createUser?.name || createUser?.phone_number
     setMessage(message)
     return false
   }
 
   if (createUser.data.statusCode == HttpStatusCode.Created) {
     setUser(createUser)
+    setMessage(createUser.data.message)
     return true
   }
 }
 
 export function userData() {
-  const { user } = userAuthStore.getState()
-  return user
+  return userStore((state) => state.user)
 }
 
-export function fieldsErrorRegister(){
+export function messageCreateUser(){
   return userStore((state) => state.message)
 }

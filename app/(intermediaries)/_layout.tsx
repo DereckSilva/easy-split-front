@@ -1,6 +1,7 @@
 import {Tabs} from 'expo-router';
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function TabLayout() {
 
@@ -18,6 +19,13 @@ export default function TabLayout() {
                 options={{
                     title: 'Pagamentos Pendentes',
                     tabBarIcon: ({ color }) => <FontAwesome name="upload" size={24} color={color} />,
+                }}
+            ></Tabs.Screen>
+            <Tabs.Screen
+                name="notifications"
+                options={{
+                    title: 'Notificações',
+                    tabBarIcon: ({ color }) => <Ionicons name="notifications" size={24} color={color} />,
                 }}
             ></Tabs.Screen>
 

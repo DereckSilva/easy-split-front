@@ -1,13 +1,13 @@
 import BackComponent from '@/components/BackComponent';
 import ButtonComponent from '@/components/ButtonComponent';
-import {fieldsErrorRegister, registerUserHook} from '@/hooks/user/userHook';
+import {messageCreateUser, registerUserHook} from '@/hooks/user/userHook';
 import { userCreateSchema } from '@/types/schemaForm';
 import { style } from '@/types/style';
 import { UserCreateRequest } from '@/types/userTypes';
 import { yupResolver } from '@hookform/resolvers/yup';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query';
-import { Link } from 'expo-router';
+import {Link, useRouter} from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
@@ -38,14 +38,19 @@ function RegisterScreen() {
   const [callingCode, setCallingCode] = useState("55");
   const [showPicker, setShowPicker] = useState(false);
   const [messageError, setMessageError] = useState<string|null>('')
-    const errorRegisterMessage = fieldsErrorRegister()
+  const errorRegisterMessage = messageCreateUser()
+  const router = useRouter()
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: UserCreateRequest) => registerUserHook(data),
     onSuccess: (data) => {
       if (!data) {
+          console.log(data, errorRegisterMessage)
           setMessageError(errorRegisterMessage)
+          return false;
       }
+
+      router.push('/login');
     }
   })
 

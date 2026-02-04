@@ -4,7 +4,7 @@ import { create } from 'zustand'
 interface AuthUserStore {
   auth: LoginResponse | null
   user: User | null
-  token: string | null
+  token: string
   isAuthenticated: boolean
   message: string | null
 
@@ -17,7 +17,7 @@ interface AuthUserStore {
 const userAuthStore = create<AuthUserStore>((set) => ({
   auth: null,
   user: null,
-  token: null,
+  token: '',
   isAuthenticated: false,
   message: null,
 
@@ -28,7 +28,7 @@ const userAuthStore = create<AuthUserStore>((set) => ({
 
   logout: () => set({
     auth: null,
-    token: null,
+    token: '',
     isAuthenticated: false
   }),
 

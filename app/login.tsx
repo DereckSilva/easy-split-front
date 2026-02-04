@@ -18,6 +18,7 @@ import {KeyboardAvoidingView, ScrollView, Text, TextInput, View} from 'react-nat
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import LoadingComponent from "@/components/LoadingComponent";
+import {messageCreateUser} from "@/hooks/user/userHook";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ function IndexScreen() {
   const [messageError, setMessageError] = useState<string|null>('')
   const router = useRouter();
   const errorAuth = userErrorAuth();
+  const messageUserCreated = messageCreateUser();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: UserAuthRequest) => authUserHook(data),
@@ -44,7 +46,6 @@ function IndexScreen() {
         return false
       }
 
-      // @ts-ignore
       router.push('/(user)/home')
     }
   })
@@ -145,6 +146,10 @@ function IndexScreen() {
               {messageError && (
                   <Text className='text-red-600 text-xl'>{messageError}</Text>
               )}
+
+              { messageUserCreated && (
+                  <Text className='text-green-600 text-xl text-center'>{messageUserCreated}</Text>
+              ) }
 
               <ButtonComponent click={handleSubmit(handleLogin)} text='Entrar'/>
 

@@ -9,7 +9,7 @@ import MaskInput, {Masks} from "react-native-mask-input";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {intermediarySchema} from "@/types/schemaForm";
 import {useState} from "react";
-import {fieldsErrorRegister} from "@/hooks/user/userHook";
+import {messageCreateUser} from "@/hooks/user/userHook";
 import {IntermediaryLoginResponse} from "@/types/userTypes";
 import LoadingComponent from "@/components/LoadingComponent";
 import ButtonComponent from "@/components/ButtonComponent";
@@ -33,7 +33,7 @@ function IntermediaryScreen() {
     const [countryCode, setCountryCode] = useState<CountryCode>("BR");
     const [callingCode, setCallingCode] = useState("55");
     const [messageError, setMessageError] = useState<string|null>('')
-    const errorRegisterMessage = fieldsErrorRegister()
+    const errorRegisterMessage = messageCreateUser()
     const router = useRouter()
 
     const { mutate, isPending } = useMutation({

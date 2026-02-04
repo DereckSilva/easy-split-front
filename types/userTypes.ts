@@ -14,7 +14,7 @@ export interface UserAuthRequest {
 }
 
 export interface User {
-  id: number, email: string, name: string, birthdate: Date
+  id: number, email: string, name: string, birthdate: string
 }
 
 
@@ -27,18 +27,14 @@ export interface UserCreateRequest {
   birthdate: Date
 }
 
-type UserCreateResponseWithoutConfirmPassword = Omit<UserCreateRequest, "password_confirmation">
+type UserCreateResponseWithoutConfirmPassword = Omit<UserCreateRequest, "password_confirmation" | "birthdate" | "password"> & {
+  birthdate: string,
+  password: string | null
+}
 
 export interface UserCreateResponse extends UserCreateResponseWithoutConfirmPassword {
-  id: number
-  data: DataResponse
-  fields: {
-    email: string | null
-    password: string | null
-    name: string | null
-    phone_number: string | null
-    birthdate: string | null
-  }
+  data: DataResponse,
+  id: number,
 }
 
 export interface UserAuthResponse {
@@ -49,7 +45,7 @@ export interface UserAuthResponse {
 interface DataResponse {
   status: boolean
   message: string
-  statusCode: HttpStatusCode
+  statusCode: number
 }
 
 /* Intermediário */
@@ -57,8 +53,7 @@ interface DataResponse {
 export interface IntermediaryLoginResponse {
   id: number,
   email: string,
-  phone_number: string,
-  expense: Expense
+  phone_number: string
 }
 
 export interface IntermediaryLoginRequest {
@@ -77,4 +72,8 @@ export interface Expense {
   intermediary: boolean,
   intermediaries: IntermediaryLoginResponse[],
   receive_notification: boolean,
+}
+
+export interface ExpenseResponse extends DataResponse{
+  data: Expense[]
 }
